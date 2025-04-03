@@ -7,7 +7,7 @@ export default defineConfig({
   server:{
     host: '0.0.0.0',
     port: 5173, // Choose a port explicitly
-    allowedHosts: ['raktkadi-project.onrender.com'],
+    allowedHosts: ['raktkadi-project-lbe5.onrender.com'],
   },
   plugins: [react(), tailwindcss(),],
 })
