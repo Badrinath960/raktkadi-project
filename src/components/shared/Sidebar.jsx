@@ -75,8 +75,8 @@ const Sidebar = ({
     ],
     [USER_TYPES.BLOOD_BANK]: [
       { name: 'Dashboard', path: '/blood-bank', icon: 'dashboard' },
-      { name: 'Blood Stock', path: '/blood-bank/stock', icon: 'blood-stock' },
-      { name: 'Donations', path: '/blood-bank/donations', icon: 'donation' },
+      // { name: 'Blood Stock', path: '/blood-bank/stock', icon: 'blood-stock' },
+      // { name: 'Donations', path: '/blood-bank/donations', icon: 'donation' },
       { name: 'Requests', path: '/blood-bank/requests', icon: 'request' },
       { name: 'Staff Management', path: '/blood-bank/staff', icon: 'users' }
     ],
