@@ -55,7 +55,6 @@ const Navbar = () => {
             <div className="hidden md:flex space-x-6">
               <Link to="/" className="hover:text-red-200 transition-colors duration-200" onClick={closeMobileMenu}>Home</Link>
               <Link to="/about" className="hover:text-red-200 transition-colors duration-200" onClick={closeMobileMenu}>About Us</Link>
-              <Link to="/donation-process" className="hover:text-red-200 transition-colors duration-200" onClick={closeMobileMenu}>Donate</Link>
               <Link to="/contact" className="hover:text-red-200 transition-colors duration-200" onClick={closeMobileMenu}>Contact</Link>
             </div>
             
