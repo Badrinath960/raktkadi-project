@@ -450,7 +450,7 @@ const CustomerBloodRequest = () => {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
                       <Hospital className="h-4 w-4 mr-1 text-blue-500" />
-                      Hospital Name <span className="text-red-500">*</span>
+                      Center Name <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"

@@ -352,7 +352,7 @@ const CustomerRequestHistory = () => {
                                   <td className="py-2 whitespace-nowrap text-gray-500">{request.patient_gender}</td>
                                 </tr>
                                 <tr className="hover:bg-gray-50">
-                                  <td className="py-2 pr-4 whitespace-nowrap font-medium text-gray-900">Hospital</td>
+                                  <td className="py-2 pr-4 whitespace-nowrap font-medium text-gray-900">Center Name</td>
                                   <td className="py-2 whitespace-nowrap text-gray-500 flex items-center">
                                     <Hospital className="h-4 w-4 mr-1 text-blue-500" />
                                     {request.hospital_name}

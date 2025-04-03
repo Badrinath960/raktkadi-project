@@ -399,6 +399,10 @@ const BloodRequestManagement = () => {
                                   <td className="py-2 whitespace-nowrap text-gray-500">{request.patient_name}</td>
                                 </tr>
                                 <tr className="hover:bg-gray-50">
+                                  <td className="py-2 pr-4 whitespace-nowrap font-medium text-gray-900">Email</td>
+                                  <td className="py-2 whitespace-nowrap text-gray-500">{request.customer_email}</td>
+                                </tr>
+                                <tr className="hover:bg-gray-50">
                                   <td className="py-2 pr-4 whitespace-nowrap font-medium text-gray-900">Age</td>
                                   <td className="py-2 whitespace-nowrap text-gray-500">{request.patient_age}</td>
                                 </tr>
