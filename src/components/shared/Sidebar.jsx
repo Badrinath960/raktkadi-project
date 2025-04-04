@@ -75,10 +75,9 @@ const Sidebar = ({
     ],
     [USER_TYPES.BLOOD_BANK]: [
       { name: 'Dashboard', path: '/blood-bank', icon: 'dashboard' },
-      // { name: 'Blood Stock', path: '/blood-bank/stock', icon: 'blood-stock' },
-      // { name: 'Donations', path: '/blood-bank/donations', icon: 'donation' },
       { name: 'Requests', path: '/blood-bank/requests', icon: 'request' },
-      { name: 'Staff Management', path: '/blood-bank/staff', icon: 'users' }
+      { name: 'Staff Management', path: '/blood-bank/staff', icon: 'users' },
+      { name: 'Inventory Management', path: '/blood-bank/create-blood-bag', icon: 'blood-stock' },
     ],
     [USER_TYPES.STAFF]: [
       { name: 'Dashboard', path: '/staff/dashboard', icon: 'dashboard' },
@@ -101,6 +100,7 @@ const Sidebar = ({
       { name: 'Hospital Management', path: '/hospital/manage', icon: 'hospital' },
       { name: 'Staff Management', path: '/hospital/staff', icon: 'users' },
       { name: 'Blood Requests', path: '/hospital/requests', icon: 'request' },
+      { name: 'Inventory Management', path: '/hospital/create-blood-bag', icon: 'blood-stock' },
 
     ],
     [USER_TYPES.CUSTOMER]: [

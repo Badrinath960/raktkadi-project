@@ -6,7 +6,7 @@ import DashboardLayout from '../components/shared/DashboardLayout';
 import BloodBankDashboard from '../components/bloodbank/BloodBankDashboard';
 import HospitalStaffManagement from '../pages/shared/StaffManagement';
 import BloodRequestManagement from '../components/shared/bloodRequestManagement/BloodRequestManagement';
-
+import BloodBagCreationForm from '../components/shared/form/BloodBagCreationForm';
 
 // BloodBank Protected Route Component
 const BloodBankProtectedRoute = ({ children }) => {
@@ -58,6 +58,14 @@ const BloodBankRoutes = () => {
         element={
           <BloodBankProtectedRoute>
             <HospitalStaffManagement />
+          </BloodBankProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/create-blood-bag" 
+        element={
+          <BloodBankProtectedRoute>
+            <BloodBagCreationForm />
           </BloodBankProtectedRoute>
         } 
       />

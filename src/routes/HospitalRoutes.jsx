@@ -6,11 +6,7 @@ import DashboardLayout from '../components/shared/DashboardLayout';
 import HospitalDashboard from '../components/hospital/HositalDashboard';
 import HospitalStaffManagement from '../pages/shared/StaffManagement';
 import BloodRequestManagement from '../components/shared/bloodRequestManagement/BloodRequestManagement';
-// import BloodInventoryStatus from '../components/hospital/BloodInventoryStatus';
-// import RequestManagement from '../components/hospital/RequestManagement';
-// import HospitalProfile from '../components/hospital/HospitalProfile';
-// import EmergencyRequests from '../components/hospital/EmergencyRequests';
-
+import BloodBagCreationForm from '../components/shared/form/BloodBagCreationForm';
 // Hospital Protected Route Component
 const HospitalProtectedRoute = ({ children }) => {
   const { isAuthenticated, getUserRole } = useAuth();
@@ -49,6 +45,14 @@ const HospitalRoutes = () => {
         } 
       />
        <Route 
+        path="/create-blood-bag" 
+        element={
+          <HospitalProtectedRoute>
+            <BloodBagCreationForm />
+          </HospitalProtectedRoute>
+        } 
+      />
+       <Route 
         path="/requests" 
         element={
           <HospitalProtectedRoute>
@@ -64,39 +68,6 @@ const HospitalRoutes = () => {
           </HospitalProtectedRoute>
         } 
         />
-
-      {/* <Route 
-        path="/inventory" 
-        element={
-          <HospitalProtectedRoute>
-            <BloodInventoryStatus />
-          </HospitalProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/requests" 
-        element={
-          <HospitalProtectedRoute>
-            <RequestManagement />
-          </HospitalProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/profile" 
-        element={
-          <HospitalProtectedRoute>
-            <HospitalProfile />
-          </HospitalProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/emergency" 
-        element={
-          <HospitalProtectedRoute>
-            <EmergencyRequests />
-          </HospitalProtectedRoute>
-        } 
-      /> */}
       {/* Redirect any unmatched routes to the hospital dashboard */}
       <Route path="*" element={<Navigate to={ROUTES.HOSPITAL} replace />} />
     </Routes>
