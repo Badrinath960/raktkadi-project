@@ -14,7 +14,7 @@ export const USER_TYPES = {
 
 export const ROUTES = {
   LOGIN: '/login',
-  SIGNUP: "/customers",
+  SIGNUP: '/signup',
   ADMIN: '/admin',
   BLOOD_BANK: '/blood-bank',
   STAFF: '/staff',

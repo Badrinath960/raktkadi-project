@@ -184,7 +184,8 @@ const BloodRequestManagement = () => {
           item.blood_group?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           item.patient_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           item.hospital_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.status?.toLowerCase().includes(searchTerm.toLowerCase())
+          item.status?.toLowerCase().includes(searchTerm.toLowerCase())||
+          item.customer_email?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
     
@@ -272,7 +273,7 @@ const BloodRequestManagement = () => {
                 <input
                   type="text"
                   className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
-                  placeholder="Search by blood group, patient, hospital..."
+                  placeholder="Search by email, blood group, patient, hospital..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
