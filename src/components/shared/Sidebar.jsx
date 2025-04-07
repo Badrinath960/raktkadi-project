@@ -97,7 +97,6 @@ const Sidebar = ({
     ],
     [USER_TYPES.HOSPITAL]: [
       { name: 'Dashboard', path: '/hospital', icon: 'dashboard' },
-      { name: 'Hospital Management', path: '/hospital/manage', icon: 'hospital' },
       { name: 'Staff Management', path: '/hospital/staff', icon: 'users' },
       { name: 'Blood Requests', path: '/hospital/requests', icon: 'request' },
       { name: 'Inventory Management', path: '/hospital/create-blood-bag', icon: 'blood-stock' },

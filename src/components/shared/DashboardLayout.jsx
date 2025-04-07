@@ -29,7 +29,7 @@ const DashboardLayout = ({ children }) => {
         }}
       >
         <Header />
-        <div className="p-4 sm:p-6 lg:p-8 w-full">
+        <div className="p-4 pb-8 sm:p-6 sm:pb-8 lg:p-8 w-full">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>

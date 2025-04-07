@@ -1,13 +1,17 @@
-import React, { useState, useEffect, ErrorBoundary } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   DropletIcon, 
   ShieldHalfIcon, 
   CheckCircle2Icon, 
   ClockIcon, 
-  AlertCircleIcon 
+  AlertCircleIcon,
+  CalendarIcon,
+  UserIcon
 } from 'lucide-react';
 import { fetchHospitalDashboard } from '../../services/hospitalService';
+import { fetchRecentBloodRequests } from '../../services/shared/bloodRequestMangement';
 import { StatCard } from '../shared/ui/cards';
+import { Link } from 'react-router-dom';
 
 // Error Boundary Component
 class DashboardErrorBoundary extends React.Component {
@@ -65,10 +69,10 @@ const HospitalDashboard = () => {
     pending_requests: 0,
     approved_requests: 0,
     rejected_requests: 0,
-    urgent_requests: 0,
-    recent_requests: []
+    urgent_requests: 0
   });
   
+  const [recentRequests, setRecentRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -76,6 +80,8 @@ const HospitalDashboard = () => {
     const loadDashboardData = async () => {
       try {
         setLoading(true);
+        
+        // Fetch dashboard stats
         const data = await fetchHospitalDashboard();
         
         // Validate data to prevent potential rendering issues
@@ -89,9 +95,13 @@ const HospitalDashboard = () => {
           pending_requests: data.pending_requests || 0,
           approved_requests: data.approved_requests || 0,
           rejected_requests: data.rejected_requests || 0,
-          urgent_requests: data.urgent_requests || 0,
-          recent_requests: Array.isArray(data.recent_requests) ? data.recent_requests : []
+          urgent_requests: data.urgent_requests || 0
         });
+        
+        // Fetch recent blood requests
+        const recentRequestsData = await fetchRecentBloodRequests();
+        setRecentRequests(recentRequestsData);
+        
         setError(null);
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
@@ -103,6 +113,38 @@ const HospitalDashboard = () => {
 
     loadDashboardData();
   }, []);
+
+  // Format date for display
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    
+    // Check if it's already in DD-MM-YYYY format
+    if (dateString.includes('-') && dateString.length === 10) {
+      return dateString;
+    }
+    
+    // Otherwise, format the ISO date
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB');
+  };
+
+  // Get status badge styling
+  const getStatusBadge = (status) => {
+    const statusClasses = {
+      'PENDING': 'bg-yellow-100 text-yellow-800',
+      'APPROVED': 'bg-green-100 text-green-800',
+      'REJECTED': 'bg-red-100 text-red-800',
+      'EMERGENCY': 'bg-red-100 text-red-800',
+      'FULFILLED': 'bg-blue-100 text-blue-800',
+      'COMPLETED': 'bg-purple-100 text-purple-800'
+    };
+    
+    return (
+      <span className={`px-2 py-1 inline-flex items-center text-xs leading-5 font-semibold rounded-full ${statusClasses[status] || 'bg-gray-100 text-gray-800'}`}>
+        {status}
+      </span>
+    );
+  };
 
   // Loading State Component
   const LoadingState = () => (
@@ -132,7 +174,6 @@ const HospitalDashboard = () => {
       </button>
     </div>
   );
-
 
   // Render Main Dashboard
   const renderDashboard = () => (
@@ -186,9 +227,20 @@ const HospitalDashboard = () => {
       {/* Recent Blood Requests */}
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
         <div className="p-6">
-          <h3 className="text-xl font-semibold text-gray-900 mb-6">Recent Blood Requests</h3>
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-xl font-semibold text-gray-900">Recent Blood Requests</h3>
+            <Link 
+              to="/hospital/requests" 
+              className="text-red-600 hover:text-red-800 text-sm font-medium flex items-center"
+            >
+              View All
+              <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
           
-          {dashboardData.recent_requests.length === 0 ? (
+          {recentRequests.length === 0 ? (
             <div className="text-center text-gray-500 py-4">
               No recent blood requests
             </div>
@@ -196,28 +248,29 @@ const HospitalDashboard = () => {
             <>
               {/* Mobile/Tablet View */}
               <div className="block md:hidden space-y-4">
-                {dashboardData.recent_requests.map((request) => (
+                {recentRequests.map((request) => (
                   <div 
                     key={request.id} 
-                    className="bg-gray-100 rounded-lg p-4 flex justify-between items-center"
+                    className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors"
                   >
-                    <div>
-                      <p className="font-semibold text-gray-900">{request.patient}</p>
-                      <p className="text-red-600">{request.bloodType}</p>
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="flex items-center">
+                        <UserIcon className="h-4 w-4 text-gray-500 mr-2" />
+                        <p className="font-semibold text-gray-900">{request.patient_name}</p>
+                      </div>
+                      {getStatusBadge(request.status)}
                     </div>
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        request.status === 'Approved'
-                          ? 'bg-green-100 text-green-800'
-                          : request.status === 'Pending'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : request.status === 'Rejected'
-                          ? 'bg-gray-100 text-gray-800'
-                          : 'bg-red-100 text-red-800'
-                      }`}
-                    >
-                      {request.status}
-                    </span>
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center">
+                        <DropletIcon className="h-4 w-4 text-red-500 mr-2" />
+                        <span className="text-red-600 font-medium">{request.blood_group}</span>
+                        <span className="text-gray-500 text-sm ml-2">({request.units_required} units)</span>
+                      </div>
+                      <div className="text-xs text-gray-500 flex items-center">
+                        <CalendarIcon className="h-3 w-3 mr-1" />
+                        {formatDate(request.requested_date)}
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -226,29 +279,30 @@ const HospitalDashboard = () => {
               <div className="hidden md:block">
                 <table className="min-w-full">
                   <thead>
-                    <tr className="bg-gray-100">
+                    <tr className="bg-gray-50">
                       <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Patient Name</th>
-                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Blood Type</th>
+                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Blood Group</th>
+                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Units</th>
+                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Requested Date</th>
                       <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Status</th>
+                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {dashboardData.recent_requests.map((request) => (
-                      <tr key={request.id} className="border-b hover:bg-gray-50">
-                        <td className="py-3 px-4 text-gray-900">{request.patient}</td>
-                        <td className="py-3 px-4 text-red-600 font-semibold">{request.bloodType}</td>
-                        <td
-                          className={`py-3 px-4 font-medium ${
-                            request.status === 'Approved'
-                              ? 'text-green-600'
-                              : request.status === 'Pending'
-                              ? 'text-yellow-600'
-                              : request.status === 'Rejected'
-                              ? 'text-gray-600'
-                              : 'text-red-600'
-                          }`}
-                        >
-                          {request.status}
+                    {recentRequests.map((request) => (
+                      <tr key={request.id} className="border-b hover:bg-gray-50 transition-colors">
+                        <td className="py-3 px-4 text-gray-900">{request.patient_name}</td>
+                        <td className="py-3 px-4 text-red-600 font-semibold">{request.blood_group}</td>
+                        <td className="py-3 px-4 text-gray-700">{request.units_required}</td>
+                        <td className="py-3 px-4 text-gray-500">{formatDate(request.requested_date)}</td>
+                        <td className="py-3 px-4">{getStatusBadge(request.status)}</td>
+                        <td className="py-3 px-4">
+                          <Link
+                            to='/hospital/requests'
+                            className="text-red-600 hover:text-red-800 text-sm font-medium"
+                          >
+                            View Details
+                          </Link>
                         </td>
                       </tr>
                     ))}

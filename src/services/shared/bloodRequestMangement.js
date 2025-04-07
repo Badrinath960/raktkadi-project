@@ -126,3 +126,25 @@ export const respondToBloodRequest = async (requestId, status, rejectionReason =
       showSnackbarMessage(err.message, 'error');
     }
   };
+
+
+/**
+ * Fetches recent blood requests (limited to 5)
+ * @returns {Promise<Array>} Array of recent blood requests
+ */
+export const fetchRecentBloodRequests = async () => {
+  try {
+    const response = await api.get('/inventory/blood-requests/');
+    // Sort by requested_date in descending order and take the first 5
+    const sortedRequests = response.data
+      .sort((a, b) => new Date(b.requested_date) - new Date(a.requested_date))
+      .slice(0, 5);
+    return sortedRequests;
+  } catch (error) {
+    console.error('Error in fetchRecentBloodRequests:', error);
+    throw new Error(
+      `Failed to fetch recent blood requests: ${error.response?.data?.message || error.message}`
+    );
+  }
+};
+
