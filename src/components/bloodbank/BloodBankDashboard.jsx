@@ -4,10 +4,14 @@ import {
   ShieldHalfIcon, 
   CheckCircle2Icon, 
   ClockIcon, 
-  AlertCircleIcon 
+  AlertCircleIcon,
+  UserIcon,
+  CalendarIcon,
+  HeartPulseIcon
 } from 'lucide-react';
-
+import { Link } from 'react-router-dom';
 import { StatCard } from '../shared/ui/cards';
+import { fetchBloodRequests } from '../../services/shared/bloodRequestMangement';
 
 // Error Boundary Component
 class DashboardErrorBoundary extends React.Component {
@@ -21,7 +25,6 @@ class DashboardErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    // You can log the error to an error reporting service
     console.error("Caught error in Dashboard:", error, errorInfo);
   }
 
@@ -65,18 +68,19 @@ const BloodBankDashboard = () => {
     todays_donations: 0,
     critical_stock: 0,
     blood_stock: [
-      { type: 'A+', units: 45 },
-      { type: 'A-', units: 12 },
-      { type: 'B+', units: 38 },
-      { type: 'B-', units: 15 },
-      { type: 'AB+', units: 20 },
-      { type: 'AB-', units: 8 },
-      { type: 'O+', units: 55 },
-      { type: 'O-', units: 25 }
+      { blood_group: 'A+', units: 0 },
+      { blood_group: 'A-', units: 0 },
+      { blood_group: 'B+', units: 0 },
+      { blood_group: 'B-', units: 0 },
+      { blood_group: 'AB+', units: 0 },
+      { blood_group: 'AB-', units: 0 },
+      { blood_group: 'O+', units: 0 },
+      { blood_group: 'O-', units: 0 }
     ],
     recent_donations: []
   });
   
+  const [recentRequests, setRecentRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -89,26 +93,14 @@ const BloodBankDashboard = () => {
         
         // For now, using mock data
         const data = {
-          total_units: 218,
-          pending_requests: 12,
-          todays_donations: 8,
-          critical_stock: 2,
-          blood_stock: [
-            { type: 'A+', units: 45 },
-            { type: 'A-', units: 12 },
-            { type: 'B+', units: 38 },
-            { type: 'B-', units: 15 },
-            { type: 'AB+', units: 20 },
-            { type: 'AB-', units: 8 },
-            { type: 'O+', units: 55 },
-            { type: 'O-', units: 25 }
-          ],
+          total_units: 9,
+          pending_requests: 6,
+          todays_donations: 1,
+          critical_stock: 3,
           recent_donations: [
-            { id: 1, donor: 'John Doe', bloodType: 'A+', date: '2023-06-15', status: 'Completed' },
-            { id: 2, donor: 'Jane Smith', bloodType: 'O-', date: '2023-06-14', status: 'Completed' },
-            { id: 3, donor: 'Robert Johnson', bloodType: 'B+', date: '2023-06-14', status: 'Processing' },
-            { id: 4, donor: 'Emily Davis', bloodType: 'AB+', date: '2023-06-13', status: 'Completed' },
-            { id: 5, donor: 'Michael Brown', bloodType: 'O+', date: '2023-06-12', status: 'Completed' }
+            { donor_name: 'John Doe', blood_group: 'A+', date: '2023-05-15', units: 1 },
+            { donor_name: 'Jane Smith', blood_group: 'O-', date: '2023-05-14', units: 1 },
+            { donor_name: 'Robert Johnson', blood_group: 'B+', date: '2023-05-13', units: 1 }
           ]
         };
         
@@ -122,9 +114,18 @@ const BloodBankDashboard = () => {
           pending_requests: data.pending_requests || 0,
           todays_donations: data.todays_donations || 0,
           critical_stock: data.critical_stock || 0,
-          blood_stock: Array.isArray(data.blood_stock) ? data.blood_stock : [],
-          recent_donations: Array.isArray(data.recent_donations) ? data.recent_donations : []
+          blood_stock: data.blood_stock || [],
+          recent_donations: data.recent_donations || []
         });
+
+        // Fetch recent blood requests
+        const bloodRequestsData = await fetchBloodRequests();
+        // Sort by requested_date (newest first) and take only the top 5
+        const sortedRequests = bloodRequestsData
+          .sort((a, b) => new Date(b.requested_date) - new Date(a.requested_date))
+          .slice(0, 5);
+        
+        setRecentRequests(sortedRequests);
         setError(null);
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
@@ -136,6 +137,38 @@ const BloodBankDashboard = () => {
 
     loadDashboardData();
   }, []);
+
+  // Format date for display
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    
+    // Check if it's already in DD-MM-YYYY format
+    if (dateString.includes('-') && dateString.length === 10) {
+      return dateString;
+    }
+    
+    // Otherwise, format the ISO date
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB');
+  };
+
+  // Get status badge styling
+  const getStatusBadge = (status) => {
+    const statusClasses = {
+      'PENDING': 'bg-yellow-100 text-yellow-800',
+      'APPROVED': 'bg-green-100 text-green-800',
+      'REJECTED': 'bg-red-100 text-red-800',
+      'EMERGENCY': 'bg-red-100 text-red-800',
+      'FULFILLED': 'bg-blue-100 text-blue-800',
+      'COMPLETED': 'bg-purple-100 text-purple-800'
+    };
+    
+    return (
+      <span className={`px-2 py-1 inline-flex items-center text-xs leading-5 font-semibold rounded-full ${statusClasses[status] || 'bg-gray-100 text-gray-800'}`}>
+        {status}
+      </span>
+    );
+  };
 
   // Loading State Component
   const LoadingState = () => (
@@ -176,88 +209,86 @@ const BloodBankDashboard = () => {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 gap-4">
         <StatCard
           icon={DropletIcon}
-          title="Total Blood Units"
+          title="Total Blood Bags"
           value={dashboardData.total_units}
           valueColor="text-red-600"
         />
         <StatCard
           icon={ClockIcon}
-          title="Pending Requests"
+          title="Total Requests"
           value={dashboardData.pending_requests}
           valueColor="text-yellow-600"
         />
         <StatCard 
-          icon={CheckCircle2Icon}
-          title="Today's Donations"
+          icon={HeartPulseIcon}
+          title="Approved Requests"
           value={dashboardData.todays_donations}
           valueColor="text-green-600"
         />
         <StatCard 
           icon={AlertCircleIcon}
-          title="Critical Stock"
+          title="Pending Requests"
+          value={dashboardData.critical_stock}
+          valueColor="text-red-600"
+        />
+        <StatCard 
+          icon={AlertCircleIcon}
+          title="Urgent Requests"
           value={dashboardData.critical_stock}
           valueColor="text-red-600"
         />
       </div>
 
-      {/* Blood Stock Status */}
+      {/* Recent Blood Requests */}
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
         <div className="p-6">
-          <h3 className="text-xl font-semibold text-gray-900 mb-6">Blood Stock Status</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {dashboardData.blood_stock.map((blood) => (
-              <div 
-                key={blood.type} 
-                className={`bg-gray-50 p-4 rounded-lg ${
-                  blood.units < 10 ? 'border-2 border-red-300' : ''
-                }`}
-              >
-                <div className="text-2xl font-bold text-red-600">{blood.type}</div>
-                <div className="text-sm text-gray-500">Available Units</div>
-                <div className={`text-lg font-medium ${blood.units < 10 ? 'text-red-600' : ''}`}>
-                  {blood.units}
-                </div>
-              </div>
-            ))}
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-xl font-semibold text-gray-900">Recent Blood Requests</h3>
+            <Link 
+              to="/blood-bank/requests" 
+              className="text-red-600 hover:text-red-800 text-sm font-medium flex items-center"
+            >
+              View All
+              <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
           </div>
-        </div>
-      </div>
-
-      {/* Recent Donations */}
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
-        <div className="p-6">
-          <h3 className="text-xl font-semibold text-gray-900 mb-6">Recent Donations</h3>
           
-          {dashboardData.recent_donations.length === 0 ? (
+          {recentRequests.length === 0 ? (
             <div className="text-center text-gray-500 py-4">
-              No recent donations
+              No recent blood requests
             </div>
           ) : (
             <>
               {/* Mobile/Tablet View */}
               <div className="block md:hidden space-y-4">
-                {dashboardData.recent_donations.map((donation) => (
+                {recentRequests.map((request) => (
                   <div 
-                    key={donation.id} 
-                    className="bg-gray-100 rounded-lg p-4 flex justify-between items-center"
+                    key={request.id} 
+                    className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors"
                   >
-                    <div>
-                      <p className="font-semibold text-gray-900">{donation.donor}</p>
-                      <p className="text-red-600">{donation.bloodType}</p>
-                      <p className="text-gray-500 text-sm">{donation.date}</p>
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="flex items-center">
+                        <UserIcon className="h-4 w-4 text-gray-500 mr-2" />
+                        <p className="font-semibold text-gray-900">{request.patient_name}</p>
+                      </div>
+                      {getStatusBadge(request.status)}
                     </div>
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        donation.status === 'Completed'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}
-                    >
-                      {donation.status}
-                    </span>
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center">
+                        <DropletIcon className="h-4 w-4 text-red-500 mr-2" />
+                        <span className="text-red-600 font-medium">{request.blood_group}</span>
+                        <span className="text-gray-500 text-sm ml-2">({request.units_required} units)</span>
+                      </div>
+                      <div className="text-xs text-gray-500 flex items-center">
+                        <CalendarIcon className="h-3 w-3 mr-1" />
+                        {formatDate(request.requested_date)}
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -266,27 +297,30 @@ const BloodBankDashboard = () => {
               <div className="hidden md:block">
                 <table className="min-w-full">
                   <thead>
-                    <tr className="bg-gray-100">
-                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Donor Name</th>
-                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Blood Type</th>
-                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Date</th>
+                    <tr className="bg-gray-50">
+                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Patient Name</th>
+                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Blood Group</th>
+                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Units</th>
+                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Requested Date</th>
                       <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Status</th>
+                      <th className="py-3 px-4 text-left text-sm font-medium text-gray-600">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {dashboardData.recent_donations.map((donation) => (
-                      <tr key={donation.id} className="border-b hover:bg-gray-50">
-                        <td className="py-3 px-4 text-gray-900">{donation.donor}</td>
-                        <td className="py-3 px-4 text-red-600 font-semibold">{donation.bloodType}</td>
-                        <td className="py-3 px-4 text-gray-600">{donation.date}</td>
-                        <td
-                          className={`py-3 px-4 font-medium ${
-                            donation.status === 'Completed'
-                              ? 'text-green-600'
-                              : 'text-yellow-600'
-                          }`}
-                        >
-                          {donation.status}
+                    {recentRequests.map((request) => (
+                      <tr key={request.id} className="border-b hover:bg-gray-50 transition-colors">
+                        <td className="py-3 px-4 text-gray-900">{request.patient_name}</td>
+                        <td className="py-3 px-4 text-red-600 font-semibold">{request.blood_group}</td>
+                        <td className="py-3 px-4 text-gray-700">{request.units_required}</td>
+                        <td className="py-3 px-4 text-gray-500">{formatDate(request.requested_date)}</td>
+                        <td className="py-3 px-4">{getStatusBadge(request.status)}</td>
+                        <td className="py-3 px-4">
+                          <Link
+                            to={`/blood-bank/requests?id=${request.id}`}
+                            className="text-red-600 hover:text-red-800 text-sm font-medium"
+                          >
+                            View Details
+                          </Link>
                         </td>
                       </tr>
                     ))}
@@ -294,6 +328,55 @@ const BloodBankDashboard = () => {
                 </table>
               </div>
             </>
+          )}
+        </div>
+      </div>
+
+      {/* Recent Donations */}
+      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-xl font-semibold text-gray-900">Recent Donations</h3>
+            <Link 
+              to="/blood-bank/donations" 
+              className="text-red-600 hover:text-red-800 text-sm font-medium flex items-center"
+            >
+              View All
+              <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+          
+          {dashboardData.recent_donations.length === 0 ? (
+            <div className="text-center text-gray-500 py-4">
+              No recent donations
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {dashboardData.recent_donations.map((donation, index) => (
+                <div 
+                  key={index} 
+                  className="bg-gray-50 rounded-lg p-4 flex justify-between items-center"
+                >
+                  <div className="flex items-center">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-red-100 mr-4">
+                      <UserIcon className="h-5 w-5 text-red-600" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">{donation.donor_name}</p>
+                      <p className="text-sm text-gray-500">{formatDate(donation.date)}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="bg-red-100 px-3 py-1 rounded-full text-red-600 font-medium mr-2">
+                      {donation.blood_group}
+                    </div>
+                    <span className="text-gray-700">{donation.units} unit(s)</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>
