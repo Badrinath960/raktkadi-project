@@ -1,30 +1,27 @@
-// src/components/home/StatsSection.jsx
 import React from "react";
 import { motion } from "framer-motion";
+import CounterBox from "../../../common/CounderBox.jsx"; 
 
 const StatsSections = () => {
   const stats = [
-    { number: "10,000+", text: "Donors Registered" },
-    { number: "15,000+", text: "Blood Units Collected" },
-    { number: "500+", text: "Partner Hospitals" },
-    { number: "5,000+", text: "Lives Saved" }
+    { number: 10000, text: "Donors Registered" },
+    { number: 15000, text: "Blood Units Collected" },
+    { number: 500, text: "Partner Hospitals" },
+    { number: 5000, text: "Lives Saved" },
   ];
-  
+
   return (
     <section className="py-12 bg-white">
       <div className="container mx-auto px-6">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center"
+          className="grid grid-cols-1 xsm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 place-items-center"
         >
           {stats.map((stat, index) => (
-            <div key={index} className="bg-red-50 p-6 rounded-lg">
-              <h3 className="text-4xl font-bold text-red-700 mb-2">{stat.number}</h3>
-              <p className="text-gray-600">{stat.text}</p>
-            </div>
+            <CounterBox key={index} value={stat.number} label={stat.text} />
           ))}
         </motion.div>
       </div>
