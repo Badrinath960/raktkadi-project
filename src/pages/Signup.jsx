@@ -179,7 +179,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-200 flex items-center justify-center py-4 px-4 sm:px-4 lg:px-6 mt-16">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-4 px-4 sm:px-4 lg:px-6 mt-16">
       <motion.div 
         className="max-w-5xl w-full bg-white p-8 rounded-xl shadow-xl"
         initial="hidden"
