@@ -105,7 +105,7 @@ const BloodBagCreationForm = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen  py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

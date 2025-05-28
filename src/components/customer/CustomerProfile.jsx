@@ -75,7 +75,7 @@ const CustomerProfile = () => {
   
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-red-50 to-red-100">
+      <div className="flex justify-center items-center min-h-screen ">
         <div className="text-center">
           <User className="mx-auto mb-4 h-16 w-16 text-red-500 animate-pulse" />
           <p className="text-gray-700 text-xl font-semibold">Loading profile...</p>
@@ -85,7 +85,7 @@ const CustomerProfile = () => {
   }
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen  py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto space-y-8">
         {error && (
           <div className="bg-red-100 border-l-4 border-red-500 p-4 rounded-r-lg flex items-center">

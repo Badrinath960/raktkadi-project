@@ -163,7 +163,7 @@ const CustomerRequestHistory = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-red-50 to-red-100">
+      <div className="flex justify-center items-center min-h-screen ">
         <div className="text-center">
           <div className="mx-auto mb-4 h-20 w-20 text-red-600 animate-pulse relative">
             <Droplet size={80} className="animate-bounce" />
@@ -179,7 +179,7 @@ const CustomerRequestHistory = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 py-10 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen  py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="bg-red-100 border-l-4 border-red-500 p-4 rounded-r-lg flex items-center">
             <AlertCircle className="h-8 w-8 text-red-500 mr-4" />
@@ -196,7 +196,7 @@ const CustomerRequestHistory = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen  py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-8">
         <div className="bg-white rounded-2xl shadow-md overflow-hidden">
           <div className="border-b p-6">

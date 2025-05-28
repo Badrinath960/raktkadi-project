@@ -56,7 +56,7 @@ const CustomerDashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-red-50 to-red-100">
+      <div className="flex justify-center items-center min-h-screen ">
         <div className="text-center">
           <div className="mx-auto mb-4 h-20 w-20 text-red-600 animate-pulse relative">
             <Droplet size={80} className="animate-bounce" />
@@ -71,7 +71,7 @@ const CustomerDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen  py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-8">
         {error && (
           <div className="bg-red-100 border-l-4 border-red-500 p-4 rounded-r-lg flex items-center">
@@ -97,13 +97,13 @@ const CustomerDashboard = () => {
               <PlusCircle className="mr-3" size={20} />
               Request Blood
           </Link>
-          <Link
+          {/* <Link
             to="/customer/profile"
             className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl transition-colors flex items-center shadow-md hover:shadow-lg"
           >
             <Edit className="mr-3" size={20} />
             Manage Profile
-          </Link>
+          </Link> */}
         </div>
 
         <div className="grid md:grid-cols-4 gap-6">

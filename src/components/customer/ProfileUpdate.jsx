@@ -100,7 +100,7 @@ const ProfileUpdate = ({ profile, onSuccess, onCancel }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen  py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto space-y-8">
         {error && (
           <div className="bg-red-100 border-l-4 border-red-500 p-4 rounded-r-lg flex items-center">

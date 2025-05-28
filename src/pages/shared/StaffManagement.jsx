@@ -75,7 +75,7 @@ const HospitalStaffManagement = () => {
     <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-xl shadow-md p-6 mb-8">
+        <div className=" rounded-xl shadow-md p-6 mb-8">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2 flex items-center">

@@ -70,7 +70,7 @@ const CreateStaffComponent = () => {
 
   // Loading State Component
   const LoadingState = () => (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-red-50 to-red-100">
+    <div className="flex justify-center items-center min-h-screen ">
       <div className="text-center">
         <div className="mx-auto mb-4 h-20 w-20 text-red-600 animate-pulse relative">
           <Droplet size={80} className="animate-bounce" />
@@ -88,7 +88,7 @@ const CreateStaffComponent = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen  py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-2xl shadow-md overflow-hidden">
           <div className="border-b p-6">

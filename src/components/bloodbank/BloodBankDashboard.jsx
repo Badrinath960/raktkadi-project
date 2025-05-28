@@ -172,7 +172,7 @@ const BloodBankDashboard = () => {
 
   // Loading State Component
   const LoadingState = () => (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-red-50 to-red-100">
+    <div className="flex justify-center items-center min-h-screen ">
       <div className="text-center">
         <div className="mx-auto mb-4 h-20 w-20 text-red-600 animate-pulse relative">
           <DropletIcon size={80} className="animate-bounce" />
@@ -201,7 +201,7 @@ const BloodBankDashboard = () => {
 
   // Render Main Dashboard
   const renderDashboard = () => (
-    <div className="container mx-auto px-4 py-8 space-y-8 bg-gradient-to-br from-red-50 to-red-100">
+    <div className="container mx-auto px-4 py-8 space-y-8 ">
       {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Blood Bank Dashboard</h1>
