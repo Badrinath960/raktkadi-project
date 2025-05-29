@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ROUTES } from "../../../utils/constants";
-import bgImage from "../../../img/img.jpg"; // Update the path based on where your image is
+import bgImage from "../../../img/img.jpg"; 
 
 const HeroSections = () => {
   const navigate = useNavigate();
