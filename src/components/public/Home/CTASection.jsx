@@ -18,7 +18,7 @@ const CTASections = () => {
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Join Our Mission?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Whether you're a donor looking to save lives or a hospital managing blood supplies, RaktKadi has you covered.
+            Whether you're a donor looking to save lives or a hospital managing blood supplies, Vitaflow has you covered.
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}

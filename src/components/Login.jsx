@@ -136,7 +136,7 @@ const Login = () => {
             Welcome Back
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Sign in to your RaktKadi account
+            Sign in to your Vitaflow account
           </p>
         </motion.div>
 

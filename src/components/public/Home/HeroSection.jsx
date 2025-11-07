@@ -24,7 +24,7 @@ const HeroSections = () => {
           className="max-w-5xl"
         >
           <h1 className="text-4xl md:text-8xl leading-[80px] font-semibold mb-4">
-            Welcome to RaktKadi
+            Welcome to Vitaflow
           </h1>
           <p className="text-xl md:text-xl mb-8 font-normal leading-[27px]">
             A platform to manage blood donations and requests efficiently.

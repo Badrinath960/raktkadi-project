@@ -197,7 +197,7 @@ const Signup = () => {
             </motion.div>
           </div>
           <h2 className="mt-4 text-center text-3xl font-extrabold text-gray-900">
-            Join RaktKadi
+            Join Vitaflow
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Create your account to donate or request blood

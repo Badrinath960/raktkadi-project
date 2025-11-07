@@ -201,7 +201,7 @@ const Sidebar = ({
               <div className="flex items-center justify-between p-4 bg-red-800 shadow-md">
                 <div className="flex items-center">
                   <Droplet className="mr-2" color="white" />
-                  <span className="text-xl font-bold">Raktkadi</span>
+                  <span className="text-xl font-bold">Vitaflow</span>
                 </div>
                 <button
                   onClick={() => setIsMobileSidebarOpen(false)}
@@ -261,7 +261,7 @@ const Sidebar = ({
                 !isSidebarOpen ? "opacity-0" : ""
               }`}
             >
-              Raktkadi
+              Vitaflow
             </span>
             <p
               className={`uppercase tracking-widest -mt-2 text-center ${

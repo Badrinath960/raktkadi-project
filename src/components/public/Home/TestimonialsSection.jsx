@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const TestimonialsSections = () => {
   const testimonials = [
     {
-      quote: "RaktKadi has transformed how we manage blood donations in our community.",
+      quote: "Vitaflow has transformed how we manage blood donations in our community.",
       author: "Dr. Sharma, Jalaram Blood Bank"
     },
     {

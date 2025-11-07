@@ -83,7 +83,7 @@ const ContactUs = () => {
               </div>
               <div className="ml-3 text-gray-700">
                 <p className="font-medium">Email</p>
-                <p className="mt-1">contact@raktkadi.org</p>
+                <p className="mt-1">contact@vitaflow.org</p>
               </div>
             </div>
             

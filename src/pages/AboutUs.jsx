@@ -70,7 +70,7 @@ const AboutUs = () => {
             animate={{ y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Raktkadi, A Modern Blood Bank Management
+            Vitaflow, A Modern Blood Bank Management
           </motion.h1>
           <motion.p 
             className="text-xl md:text-2xl max-w-3xl mx-auto"
@@ -94,7 +94,7 @@ const AboutUs = () => {
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
           <p className="text-lg text-gray-700 leading-relaxed">
-          At RaktKadi, we're dedicated to revolutionizing blood bank operations through cutting-edge technology. Our comprehensive management system ensures that life-saving blood components are collected, tested, stored, and distributed with maximum efficiency and safety. Whether you're a donor looking to save lives or a hospital managing blood supplies, RaktKadi has you covered. We bridge the gap between donors and patients, making every donation count.
+          At Vitaflow, we're dedicated to revolutionizing blood bank operations through cutting-edge technology. Our comprehensive management system ensures that life-saving blood components are collected, tested, stored, and distributed with maximum efficiency and safety. Whether you're a donor looking to save lives or a hospital managing blood supplies, Vitaflow has you covered. We bridge the gap between donors and patients, making every donation count.
           </p>
         </div>
       </motion.div>

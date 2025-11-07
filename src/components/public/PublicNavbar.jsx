@@ -47,7 +47,7 @@ const Navbar = () => {
             {/* Logo and site name */}
             <div className="flex items-center ml-5 space-x-2">
               <Link to="/" className="font-bold text-2xl">
-                Raktkadi
+                Vitaflow
               </Link>
             </div>
 
